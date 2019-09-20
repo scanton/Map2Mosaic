@@ -1,0 +1,29 @@
+{
+  "name": "map2mosaic",
+  "version": "1.0.0",
+  "description": "Color Map to Picture Mosaic",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scanton/Map2Mosaic.git"
+  },
+  "keywords": [
+    "color",
+    "map",
+    "moasiac"
+  ],
+  "author": "Satori Canton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/scanton/Map2Mosaic/issues"
+  },
+  "homepage": "https://github.com/scanton/Map2Mosaic#readme",
+  "dependencies": {
+    "electron-prebuilt": "^1.4.13",
+    "fs-extra": "^5.0.0"
+  }
+}
