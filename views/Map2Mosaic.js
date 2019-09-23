@@ -9,10 +9,16 @@
 						<span class="watermark-label">Select Image</span>
 					</button>
 					<div  class="toolbar-component">
-						<span>Base Width</span><input type="number" step="1" v-model="baseWidth" />
+						<span>Cell Width</span><input type="number" step="1" v-model="cellWidth" />
 					</div>
 					<div  class="toolbar-component">
-						<span>Sample Size</span><input type="number" step="1" v-model="sampleSize" />
+						<span>Cell Height</span><input type="number" step="1" v-model="cellHeight" />
+					</div>
+					<div  class="toolbar-component">
+						<span>Sample Width</span><input type="number" step="1" v-model="sampleWidth" />
+					</div>
+					<div  class="toolbar-component">
+						<span>Sample Height</span><input type="number" step="1" v-model="sampleHeight" />
 					</div>
 					<button :disabled="hasImagePath" @click="handleGenerateMosaic" class="btn btn-default">Mosaic (Preview)</button>
 					<button :disabled="hasImagePath" @click="handleSaveAsSvg" class="btn btn-default">Save SVG</button>
@@ -52,18 +58,42 @@
 					this.$store.commit('setBaseWidth', value);
 				}
 			},
+			cellHeight: {
+				get() {
+					return store.state.cellHeight;
+				},
+				set(value) {
+					this.$store.commit('setCellHeight', value);
+				}
+			},
+			cellWidth: {
+				get() {
+					return store.state.cellWidth;
+				},
+				set(value) {
+					this.$store.commit('setCellWidth', value);
+				}
+			},
 			hasImagePath: function() {
 				return !Boolean(store.state.imagePath.length);
 			},
 			imagePath: function() {
 				return store.state.imagePath;
 			},
-			sampleSize: {
+			sampleHeight: {
 				get() {
-					return store.state.sampleSize;
+					return store.state.sampleHeight;
 				},
 				set(value) {
-					this.$store.commit('setSampleSize', value);
+					this.$store.commit('setSampleHeight', value);
+				}
+			},
+			sampleWidth: {
+				get() {
+					return store.state.sampleWidth;
+				},
+				set(value) {
+					this.$store.commit('setSampleWidth', value);
 				}
 			}
 		},
@@ -74,6 +104,8 @@
 		},
 		methods: {
 			generateMosaic: function(e) {
+				console.log("HIT");
+				/*
 				var base = Number(this.baseWidth);
 				var halfBase = base / 2;
 				var baseSin = base * eqSin;
@@ -113,6 +145,7 @@
 				}
 				s += '\n</g></g></svg>';
 				return s;
+				*/
 			},
 			handleGenerateMosaic: function(e) {
 				$(".mosaic-output").html(this.generateMosaic());
