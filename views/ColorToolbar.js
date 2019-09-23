@@ -7,6 +7,17 @@
 					<button class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Add Color</button>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div v-for="color in colorList" class="color">
+						<div class="swatch" :style="'background-color: ' + color"></div>
+						<div class="label">{{ color }}</div>
+						<button class="btn btn-danger remove-color-button" @click="handleRemoveColor(color)">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	`;
 	
@@ -15,7 +26,9 @@
 			
 		},
 		computed: {
-			
+			colorList: function() {
+				return store.state.colorList;
+			}
 		},
 		props: [],
 		template: s,
@@ -23,7 +36,9 @@
 			return {}
 		},
 		methods: {
-			
+			handleRemoveColor: function(color) {
+				console.log(color);
+			}
 		}
 	});
 })();
