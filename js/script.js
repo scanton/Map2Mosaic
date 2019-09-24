@@ -72,6 +72,15 @@ const componentToHex = function (c) {
 const getHexColorFromData = function(data) {
 	return '#' + componentToHex(data[0]) + componentToHex(data[1]) + componentToHex(data[2]);
 }
+const hexToRgba = function(hex) {
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	return result ? [
+		parseInt(result[1], 16),
+		parseInt(result[2], 16),
+		parseInt(result[3], 16),
+		1
+	] : [255, 255, 255, 1];
+}
 
 const eqRad = toRadians(60);
 const eqSin = Math.sin(eqRad);

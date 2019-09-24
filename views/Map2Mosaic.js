@@ -50,14 +50,6 @@
 			
 		},
 		computed: {
-			baseWidth: {
-				get() {
-					return store.state.baseWidth;
-				},
-				set(value) {
-					this.$store.commit('setBaseWidth', value);
-				}
-			},
 			cellHeight: {
 				get() {
 					return store.state.cellHeight;
@@ -104,48 +96,51 @@
 		},
 		methods: {
 			generateMosaic: function(e) {
-				console.log("HIT");
-				/*
-				var base = Number(this.baseWidth);
-				var halfBase = base / 2;
-				var baseSin = base * eqSin;
 				var img = document.getElementById("mosaic-target");
 				var canvas = document.createElement("canvas");
 				canvas.width = img.width;
 				canvas.height = img.height;
 				canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height);
-
-				var widthSteps = Math.floor(img.width / halfBase);
-				var heightSteps = Math.floor(img.height / baseSin);
-				var overlapSize = 0.75;
-				var pixelData, color, x, y, pointUp, hsl, a;
-				var portWidth = img.width - base;
-				var portHeight = img.height - baseSin;
+				var pixelData, color, hsl, closestColor, a, x, y;
+				var xSteps = img.width / this.cellWidth;
+				var ySteps = Math.floor(img.height / this.cellHeight);
+				var portWidth = xSteps * this.cellWidth;
+				var portHeight = ySteps * this.cellHeight;
 				var s = '<?xml version="1.0" encoding="utf-8"?>\n<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" x="0px" y="0px" viewBox="0 0 ' + portWidth + ' ' + portHeight + '" enable-background="new 0 0 ' + portWidth + ' ' + portHeight + '" xml:space="preserve"><g inkscape:groupmode="layer" inkscape:label="Layer 1"><g>';
-				for(y = 0; y < heightSteps; y++) {
-					for(x = 0; x < widthSteps; x++) {
-						pixelData = averagePixelData(canvas.getContext('2d').getImageData(x * halfBase, y * baseSin, this.sampleSize, this.sampleSize).data);
+				for(y = 0; y < ySteps; y++) {
+					for(x = 0; x < xSteps; x++) {
+						pixelData = averagePixelData(canvas.getContext('2d').getImageData(x * this.cellWidth, y * this.cellHeight, this.sampleWidth, this.sampleHeight).data);
 						color = getHexColorFromData(pixelData);
-						hsl = rgbToHsl(pixelData[0], pixelData[1], pixelData[2]);
-						pointUp = (x + y) % 2 ? 'point-up' : '';
+						closestColor = this.getClosestColor(color);
+						s += '\n<polygon fill="' + closestColor + '" ';
 						a = [];
-						s += '\n<polygon fill="' + color + '" ';
-						if(pointUp) {
-							a.push(Math.round((x * halfBase) - overlapSize - halfBase) + "," + Math.round(((y * baseSin) + baseSin) + overlapSize));
-							a.push(Math.round((x * halfBase) + base + overlapSize - halfBase) + "," + Math.round(((y * baseSin) + baseSin) + overlapSize));
-							a.push(Math.round((x * halfBase)) + "," + Math.round((y * baseSin) - overlapSize));
-						} else {
-							a.push(Math.round((x * halfBase) - overlapSize - halfBase) + "," + Math.round((y * baseSin) - overlapSize));
-							a.push(Math.round(((x * halfBase) + base) + overlapSize - halfBase) + "," + Math.round((y * baseSin) - overlapSize));
-							a.push(Math.round((x * halfBase)) + "," + Math.round(((y * baseSin) + baseSin) + overlapSize));
-						}
+						a.push((x * this.cellWidth) + "," + (y * this.cellHeight));
+						a.push(((x * this.cellWidth) + this.cellWidth) + "," + (y * this.cellHeight));
+						a.push(((x * this.cellWidth) + this.cellWidth) + "," + ((y * this.cellHeight) + this.cellHeight));
+						a.push((x * this.cellWidth) + "," + ((y * this.cellHeight) + this.cellHeight));
 						s += 'points="' + (a.join(" ")) + '"';
 						s += ' />';
 					}
 				}
 				s += '\n</g></g></svg>';
 				return s;
-				*/
+			},
+			getClosestColor: function(color) {
+				color = hexToRgba(color);
+				var colors = store.state.colorList;
+				var c, diff;
+				var index = 0;
+				var lastDiff = Number.POSITIVE_INFINITY;
+				var l = colors.length;
+				while(l--) {
+					c = hexToRgba(colors[l]);
+					diff = Math.abs(color[0] - c[0]) + Math.abs(color[1] - c[1]) + Math.abs(color[2] - c[2]);
+					if(diff < lastDiff) {
+						lastDiff = diff;
+						index = l;
+					}
+				}
+				return colors[index];
 			},
 			handleGenerateMosaic: function(e) {
 				$(".mosaic-output").html(this.generateMosaic());
