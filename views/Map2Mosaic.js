@@ -102,11 +102,12 @@
 				canvas.height = img.height;
 				canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height);
 				var pixelData, color, hsl, closestColor, a, x, y;
-				var xSteps = img.width / this.cellWidth;
+				var xSteps = Math.floor(img.width / this.cellWidth);
 				var ySteps = Math.floor(img.height / this.cellHeight);
 				var portWidth = xSteps * this.cellWidth;
 				var portHeight = ySteps * this.cellHeight;
 				var s = '<?xml version="1.0" encoding="utf-8"?>\n<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" x="0px" y="0px" viewBox="0 0 ' + portWidth + ' ' + portHeight + '" enable-background="new 0 0 ' + portWidth + ' ' + portHeight + '" xml:space="preserve"><g inkscape:groupmode="layer" inkscape:label="Layer 1"><g>';
+				console.log(ySteps * xSteps);
 				for(y = 0; y < ySteps; y++) {
 					for(x = 0; x < xSteps; x++) {
 						pixelData = averagePixelData(canvas.getContext('2d').getImageData(x * this.cellWidth, y * this.cellHeight, this.sampleWidth, this.sampleHeight).data);
