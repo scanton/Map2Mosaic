@@ -108,8 +108,8 @@
 				canvas.height = img.height;
 				canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height);
 				var pixelData, color, hsl, closestColor, a, x, y, cwx, chy, cwxcw, chych;
-				var cw = this.cellWidth;
-				var ch = this.cellHeight;
+				var cw = Number(this.cellWidth);
+				var ch = Number(this.cellHeight);
 				var xSteps = Math.floor(img.width / cw);
 				var ySteps = Math.floor(img.height / ch);
 				var portWidth = xSteps * cw;
