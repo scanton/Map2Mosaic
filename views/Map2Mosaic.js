@@ -22,6 +22,9 @@
 					</div>
 					<button :disabled="hasImagePath" @click="handleGenerateMosaic" class="btn btn-default">Mosaic (Preview)</button>
 					<button :disabled="hasImagePath" @click="handleSaveAsSvg" class="btn btn-default">Save SVG</button>
+					<div class="toolbar-component">
+						<span>Total Cells {{totalCells}}</span>
+					</div>
 				</div>
 			</div>
 			<div class="row image-preview">
@@ -87,6 +90,9 @@
 				set(value) {
 					this.$store.commit('setSampleWidth', value);
 				}
+			},
+			totalCells: function() {
+				return store.state.totalCells;
 			}
 		},
 		props: [],
@@ -101,24 +107,30 @@
 				canvas.width = img.width;
 				canvas.height = img.height;
 				canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height);
-				var pixelData, color, hsl, closestColor, a, x, y;
-				var xSteps = Math.floor(img.width / this.cellWidth);
-				var ySteps = Math.floor(img.height / this.cellHeight);
-				var portWidth = xSteps * this.cellWidth;
-				var portHeight = ySteps * this.cellHeight;
+				var pixelData, color, hsl, closestColor, a, x, y, cwx, chy, cwxcw, chych;
+				var cw = this.cellWidth;
+				var ch = this.cellHeight;
+				var xSteps = Math.floor(img.width / cw);
+				var ySteps = Math.floor(img.height / ch);
+				var portWidth = xSteps * cw;
+				var portHeight = ySteps * ch;
 				var s = '<?xml version="1.0" encoding="utf-8"?>\n<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" x="0px" y="0px" viewBox="0 0 ' + portWidth + ' ' + portHeight + '" enable-background="new 0 0 ' + portWidth + ' ' + portHeight + '" xml:space="preserve"><g inkscape:groupmode="layer" inkscape:label="Layer 1"><g>';
-				console.log(ySteps * xSteps);
+				store.commit("setTotalCells", ySteps * xSteps);
 				for(y = 0; y < ySteps; y++) {
 					for(x = 0; x < xSteps; x++) {
-						pixelData = averagePixelData(canvas.getContext('2d').getImageData(x * this.cellWidth, y * this.cellHeight, this.sampleWidth, this.sampleHeight).data);
+						pixelData = averagePixelData(canvas.getContext('2d').getImageData(x * cw, y * ch, this.sampleWidth, this.sampleHeight).data);
 						color = getHexColorFromData(pixelData);
 						closestColor = this.getClosestColor(color);
 						s += '\n<polygon fill="' + closestColor + '" ';
 						a = [];
-						a.push((x * this.cellWidth) + "," + (y * this.cellHeight));
-						a.push(((x * this.cellWidth) + this.cellWidth) + "," + (y * this.cellHeight));
-						a.push(((x * this.cellWidth) + this.cellWidth) + "," + ((y * this.cellHeight) + this.cellHeight));
-						a.push((x * this.cellWidth) + "," + ((y * this.cellHeight) + this.cellHeight));
+						cwx = cw * x;
+						chy = ch * y;
+						a.push(cwx + "," + chy);
+						cwxcw = Number(cwx) + Number(cw);
+						chych = Number(chy) + Number(ch);
+						a.push(cwxcw + "," + chy);
+						a.push(cwxcw + "," + chych);
+						a.push(cwx + "," + chych);
 						s += 'points="' + (a.join(" ")) + '"';
 						s += ' />';
 					}
