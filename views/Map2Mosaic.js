@@ -42,6 +42,7 @@
 					</div>
 				</div>
 			</div>
+			<add-color-ui></add-color-ui>
 			<pallette></pallette>
 			<div class="inline-styles">
 			</div>

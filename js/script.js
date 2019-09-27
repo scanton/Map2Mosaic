@@ -97,14 +97,18 @@ const store = new Vuex.Store({
 		colorList: ['#FFFFFF', '#000000', '#ffdb8f', '#7966b0', '#ffe558', '#ffd200', '#f57729', '#e60f31', '#00acf2', '#0066b4', '#0053a7', '#003c81', '#00a94c', '#008367', '#009391', '#004f5c', '#9a002c', '#a60046', '#f14a91', '#f58faf', '#663600', '#7f8084', '#b79955', '#a8a9ad'],
 		imagePath: '',
 		defaultPath: 'map2mosaic.svg',
-		totalCells: 0
+		totalCells: 0,
+		showAddColorView: false
 	},
 	mutations: {
-		addToColorList: function(state, value) {
+		addColor: function(state, value) {
 			state.colorList.push(value);
 		},
 		colorList: function(state, list) {
 			state.colorList = list;
+		},
+		hideAddColorView: function(state) {
+			state.showAddColorView = false;
 		},
 		setDefaultPath: function(state, value) {
 			state.defaultPath = value;
@@ -126,6 +130,9 @@ const store = new Vuex.Store({
 		},
 		setTotalCells: function(state, value) {
 			state.totalCells = value;
+		},
+		showAddColorView: function(state) {
+			state.showAddColorView = true;
 		}
 	}
 });
