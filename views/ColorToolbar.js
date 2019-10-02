@@ -2,6 +2,14 @@
 	var componentName = 'color-toolbar';
 	var s = `
 		<div class="` + componentName + ` container-fluid">
+
+			<div class="row">
+				<div class="col-sm-12">
+					<select @change="handlePaletteChange">
+
+					</select>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-sm-12">
 					<button class="btn btn-default" @click="handleAddColor"><span class="glyphicon glyphicon-plus"></span> Add Color</button>
@@ -39,8 +47,11 @@
 			handleAddColor: function(e) {
 				store.commit("showAddColorView");
 			},
+			handlePaletteChange: function(e) {
+				
+			},
 			handleRemoveColor: function(color) {
-				console.log(color);
+				store.commit("removeColor", color);
 			}
 		}
 	});

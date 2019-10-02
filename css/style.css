@@ -90,8 +90,25 @@ body {
 }
 .modal-ui {
 	position: absolute;
-	top: 100px;
-	right: 100px;
-	left: 100px;
-	background: #999;
+	top: 150px;
+	right: 150px;
+	left: 150px;
+	background: #666;
+	padding: 1em;
+	border-radius: 10px;
+}
+.modal-ui .input-group {
+	width: 100%;
+	margin: .5em;
+}
+.modal-ui .input-group input {
+	color: black;
+	width: 100%;
+	padding: .25em;
+	border-radius: 5px;
+	background: #CCC;
+	border: 1px solid #333;
+}
+.modal-ui .input-group input::-webkit-input-placeholder {
+	color: #333;
 }

@@ -133,6 +133,14 @@ const store = new Vuex.Store({
 		},
 		showAddColorView: function(state) {
 			state.showAddColorView = true;
+		},
+		removeColor: function(state, value) {
+			var l = state.colorList.length;
+			while(l--) {
+				if(state.colorList[l] == value) {
+					state.colorList.splice(l, 1);
+				}
+			}
 		}
 	}
 });
